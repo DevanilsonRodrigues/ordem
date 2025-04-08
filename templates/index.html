@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Creation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2>Create Order</h2>
+
+        <!-- Formulário principal -->
+        <form method="POST" enctype="multipart/form-data" id="orderForm">
+
+            <!-- Campo User obrigatório com filtro embutido -->
+            <div class="mb-3">
+                <label for="user" class="form-label">User (Obrigatório)</label>
+                <input list="users_list" class="form-control" id="user" name="user" required placeholder="Digite ou selecione um usuário" value="{{ selected_user or '' }}">
+
+                <datalist id="users_list">
+                    {% for user in users %}
+                        <option value="{{ user }}">{{ user }}</option>
+                    {% endfor %}
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <label for="order_id" class="form-label">Ordem</label>
+                <input type="text" class="form-control" id="order_id" name="order_id" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Texto Breve</label>
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="cost_center" class="form-label">Centro de Custo</label>
+                <input type="text" class="form-control" id="cost_center" name="cost_center" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="cost_responsible" class="form-label">CC responsável</label>
+                <input type="text" class="form-control" id="cost_responsible" name="cost_responsible" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="division" class="form-label">Divisção</label>
+                <input type="text" class="form-control" id="division" name="division" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="center" class="form-label">Centro</label>
+                <input type="text" class="form-control" id="center" name="center" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="company" class="form-label">Empresa</label>
+                <input type="text" class="form-control" id="company" name="company" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" onclick="this.disabled = true; this.form.submit();">Create Order</button>
+        </form>
+
+        <!-- Exibir os pedidos filtrados -->
+        <h2 class="mt-4">Orders for User: {{ selected_user or 'Todos' }}</h2>
+
+
+        <!-- Tabela para exibir ordens -->
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ordem</th>
+                    <th>Texto Breve</th>
+                    <th>Centro de Custo</th>
+                    <th>CC. responsável</th>
+                    <th>Divisão</th>
+                    <th>Centro</th>
+                    <th>Empresa</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order['id'] }}</td>
+                    <td>{{ order['order_id'] }}</td>
+                    <td>{{ order['description'] }}</td>
+                    <td>{{ order['cost_center'] }}</td>
+                    <td>{{ order['cost_responsible'] }}</td>
+                    <td>{{ order['division'] }}</td>
+                    <td>{{ order['center'] }}</td>
+                    <td>{{ order['company'] }}</td>
+                    <td>{{ order['user'] }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="10" class="text-center">Nenhuma ordem encontrada.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
